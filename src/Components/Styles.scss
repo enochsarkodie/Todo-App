@@ -1,0 +1,79 @@
+.App{
+    width: 100vw;
+    position: relative;
+    
+    
+
+    .main{
+        width: 45%;
+        height: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        position: absolute;
+        left: 35%;
+        padding-top: 20px;
+
+        span{
+            font-family: cursive;
+        }
+        .backgroundImage{
+            position: absolute;
+            top: 0;
+            z-index: 10;
+        }
+        .heading{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 95%;
+            z-index: 100;
+            color: white;
+
+            h1{
+                letter-spacing: 5px;
+            }
+            span{
+                font-size: 30px;
+            }
+        }
+
+        .inputField{
+            background: white;
+            width: 95%;
+            border-radius: 5px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            padding-left: 15px;
+            z-index: 100;
+            gap: 30px;
+
+            input{
+                width: 80%;
+                height: 30px;
+                border: 0;
+                outline: 0;
+                font-size: 20px;
+                font-family: cursive;
+                font-weight: 200;
+            }
+
+            span{
+                font-size: 25px;
+            }
+        }
+
+        .listContainer{
+            height: 520px;
+            width: 95%;
+            border-radius: 5px;
+            padding: 5px;
+            z-index: 100;
+            background: white;
+            box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2);
+        }
+    }
+}

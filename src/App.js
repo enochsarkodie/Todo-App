@@ -1,27 +1,40 @@
-import React, { useState } from "react";
-import "./App.css";
-import TodoForm from "./components/TodoForm";
-import TodoItem from "./components/TodoItem";
+import React, { useEffect, useState } from 'react'
+import './App.css'
+import TodoForm from './components/TodoForm'
+import TodoList from './components/TodoList'
+import {createContext} from 'react'
+import ReactSwitch from 'react-switch'
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState("all");
+export const ThemeContext = createContext(null)
 
-  const addTodo = (text) => {
-    let id = 1;
-    if (todos.length > 0) {
-      id = todos[0].id + 1;
+export default function App() {
+const [todos,setTodos] = useState([])
+const [filter,setFilter] = useState('all')
+const [theme,setTheme] = useState('dark')
+
+
+useEffect( ()=>{
+  if (todos.length===0) return ;
+  localStorage.setItem('todos',JSON.stringify(todos))
+},[todos])
+
+useEffect( ()=>{
+  
+ const todos =JSON.parse( localStorage.getItem('todos'))
+ setTodos(todos)
+},[]) 
+
+  const addTodo =(text)=>{
+    let id =1;
+    if(todos.length > 0){
+      id = todos[0].id +1
+
     }
-    let todo = { id: id, text: text, completed: false };
-    let newTodos = [todo, ...todos];
-    console.log(newTodos);
-    setTodos(newTodos);
-  };
-
-  const removeTodo = (id) => {
-    let updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
-  };
+    let todo ={id:id, text:text, completed:false}
+    let newTodos = [todo, ...todos]
+    console.log(newTodos) 
+    setTodos(newTodos)
+  }
 
   const completeTodo = (id) => {
     let updatedTodos = todos.map((todo) => {
@@ -32,57 +45,64 @@ function App() {
     });
     setTodos(updatedTodos);
   };
-
-  const clearCompletedTodos = () => {
-    const updatedTodos = todos.filter((todo) => !todo.completed);
+  const removeTodo = (id) => {
+    let updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
   };
 
-  const filterTodos = (filter) => {
-    setFilter(filter);
-  };
-
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "completed") {
-      return todo.completed;
-    }
-    if (filter === "active") {
-      return !todo.completed;
-    }
-    return true;
-  });
-  const activeTodoCount = todos.filter((todo) => !todo.completed).length;
-
-  
+ 
+  const clearCompletedTodos = ()=>{
+    const updatedTodos = todos.filter((todo)=> !todo.completed);
+    setTodos(updatedTodos);
+  }
+const filterTodos = (filter)=>{
+  setFilter(filter);
+}
+const filteredTodos = todos.filter((todo) => {
+  if (filter === "completed") {
+    return todo.completed;
+  }
+  if (filter === "active") {
+    return !todo.completed;
+  }
+  return true;
+});
+const activeTodoCount = todos.filter((todo) => !todo.completed).length;
+const toggleTheme =()=>{
+  setTheme((curr)=> (curr==="light" ? "dark":"light"))
+} 
   return (
-    <div className="todo-app">
-      <h1>T O D O</h1>
-      <TodoForm addTodo={addTodo} />
-      <ul>
-        {filteredTodos.map((todo) => (
-          <TodoItem
-         
-            removeTodo={removeTodo}
-            completeTodo={completeTodo}
-            todo={todo}
-            key={todo.id}
-          />
-        ))}
-      </ul>
-        <div className="todo-footer">
-        
-      <div className="toggles">
+    <ThemeContext.Provider value={{theme,toggleTheme}}>
+    <div className='App' id={theme}>
+      <div className='header'>
+      <h1>T O D O </h1>
+      <ReactSwitch 
+      onChange={toggleTheme} 
+      checked={theme ==='dark'}
+      className='switch'/>
+      </div>
+      <main>
+      <TodoForm addTodo={addTodo}/>
+      <l1>
+      {filteredTodos.map(todo =>(
+        <TodoList  
+        onToggle={completeTodo} 
+        todo={todo}
+        removeTodo={removeTodo} 
+        key={todo.id}/>
+      ))}
+      </l1>
+      <div className="footer">
       <span className="first-footer">{activeTodoCount} items left</span>
       
-        <span className= "btn" onClick={() => filterTodos("all")}>All</span>
+        <span className= 'btn' onClick={() => filterTodos("all")}>All</span>
         <span className= "btn" onClick={() => filterTodos("active")}>Active</span>
-        <span className= "btn" onClick={() => filterTodos("completed")}>Completed</span>
+        <span className= {todos.filter === 'completed' ? ' btn clicked':'btn'} onClick={() => filterTodos("completed")}>Completed</span>
         
         <span className="btn1"   onClick={clearCompletedTodos}>Clear Completed</span>
       </div>
-    </div>
-    </div>
-  );
+      </main>
+      </div>
+      </ThemeContext.Provider>
+  )
 }
-
-export default App;

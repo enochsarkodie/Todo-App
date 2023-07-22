@@ -1,5 +1,5 @@
  body{
-  background-color: white;
+  background-color: black;
 }
 
 .header{
@@ -65,7 +65,9 @@ background-color:black;
   
 }
 
-
+body{
+  background-color: white;
+}
 .circle{
  font-size: 25px;
 }

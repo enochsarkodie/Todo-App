@@ -19,11 +19,11 @@ useEffect( ()=>{
   localStorage.setItem('todos',JSON.stringify(todos))
 },[todos])
 
-useEffect( ()=>{
+// useEffect( ()=>{
   
- const todos =JSON.parse( localStorage.getItem('todos'))
- setTodos(todos)
-},[]) 
+//  const todos =JSON.parse( localStorage.getItem('todos'))
+//  setTodos(todos)
+// },[]) 
 
 useEffect(() => {
   const fetchData = async () => {

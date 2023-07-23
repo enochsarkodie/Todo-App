@@ -19,17 +19,17 @@ useEffect( ()=>{
   localStorage.setItem('todos',JSON.stringify(todos))
 },[todos])
 
-// useEffect( ()=>{
+useEffect( ()=>{
   
-//  const todos =JSON.parse( localStorage.getItem('todos'))
-//  setTodos(todos)
-// },[]) 
+ const todos =JSON.parse( localStorage.getItem('todos'))
+ setTodos(todos)
+},[]) 
 
 useEffect(() => {
   const fetchData = async () => {
     try {
       const response = await axios.get('https://todo-backend-p2ql.onrender.com/todos');
-      setTodos(response.data); // Update the state with the fetched data
+      setTodos(response.data.data.todos); // Update the state with the fetched data
     } catch (error) {
       console.error('Error fetching data:', error);
     }

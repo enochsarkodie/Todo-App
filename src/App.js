@@ -4,6 +4,7 @@ import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 import {createContext} from 'react'
 import ReactSwitch from 'react-switch'
+import axios from 'axios'
 
 export const ThemeContext = createContext(null)
 
@@ -18,11 +19,24 @@ useEffect( ()=>{
   localStorage.setItem('todos',JSON.stringify(todos))
 },[todos])
 
-useEffect( ()=>{
+// useEffect( ()=>{
   
- const todos =JSON.parse( localStorage.getItem('todos'))
- setTodos(todos)
-},[]) 
+//  const todos =JSON.parse( localStorage.getItem('todos'))
+//  setTodos(todos)
+// },[]) 
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://todo-backend-p2ql.onrender.com/todos');
+      setTodos(response.data); // Update the state with the fetched data
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  fetchData(); // Call the fetchData function when the component mounts
+}, []); 
 
   const addTodo =(text)=>{
     let id =1;

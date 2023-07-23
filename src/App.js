@@ -97,7 +97,7 @@ const toggleTheme =()=>{
       </div>
       <main>
       <TodoForm addTodo={addTodo}/>
-      <l1>
+      <li>
       {filteredTodos.map(todo =>(
         <TodoList  
         onToggle={completeTodo} 
@@ -105,7 +105,7 @@ const toggleTheme =()=>{
         removeTodo={removeTodo} 
         key={todo.id}/>
       ))}
-      </l1>
+      </li>
       <div className="footer">
       <span className="first-footer">{activeTodoCount} items left</span>
       
